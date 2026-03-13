@@ -1,0 +1,13 @@
+# manual setup of iosxrd image for testing purposes on remote host:
+
+cd /home/ubuntu
+mkdir Images
+mkdir Topologies
+cd Images
+cp /tmp/iosxrd-17.3.1.tar.gz ./
+gzip -d iosxrd-17.3.1.tar.gz
+tar -xvf iosxrd-17.3.1.tar
+docker load -i xrd-control-plane-container-x64.dockerv1.tgz
+cd ..
+sudo sysctl -w fs.inotify.max_user_instances=64000
+sudo sysctl -w fs.inotify.max_user_watches=64000

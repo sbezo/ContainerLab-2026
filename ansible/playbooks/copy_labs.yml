@@ -1,0 +1,10 @@
+---
+- hosts: SB-ContainerLab
+  tasks:
+    - name: copy all files in the Topologies directory
+      ansible.builtin.copy:
+        src: /Users/stefanbezo/Documents/Dev/ContainerLab-2026/Topologies/
+        dest: /home/ubuntu/Topologies/
+        mode: '0644'
+        remote_src: no
+        directory_mode: yes

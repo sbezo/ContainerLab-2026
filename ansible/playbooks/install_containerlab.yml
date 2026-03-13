@@ -1,0 +1,24 @@
+---
+- hosts: SB-ContainerLab
+  become: yes
+  tasks:
+    - name: Remove the broken malformed repo file
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/netdevops_fury_site_apt.list
+        state: absent
+
+    - name: Add ContainerLab Repository (Flat Format)
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/netdevops.list
+        content: "deb [trusted=yes] https://netdevops.fury.site/apt/ /"
+        mode: '0644'
+    
+    - name: Update apt and install containerlab
+      apt:
+        pkg:
+        - containerlab
+        state: latest
+        update_cache: true
+    
+    
+    

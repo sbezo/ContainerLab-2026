@@ -1,0 +1,75 @@
+---
+- hosts: SB-ContainerLab
+  become: yes
+
+  vars:
+    home_dir: /home/ubuntu
+    images_dir: /home/ubuntu/Images
+    topologies_dir: /home/ubuntu/Topologies
+    archive_name: iosxrd-17.3.1.tar.gz
+    archive_dest: /home/ubuntu/Images/iosxrd-17.3.1.tar.gz
+    archive_source: ../../Images/xrd-control-plane-container-x86.25.4.1.dms
+    tar_file: /home/ubuntu/Images/iosxrd-17.3.1.tar
+    docker_image_tar: /home/ubuntu/Images/xrd-control-plane-container-x64.dockerv1.tgz
+
+  tasks:
+      - name: Ensure Images directory exists
+        ansible.builtin.file:
+          path: "{{ images_dir }}"
+          state: directory
+          owner: ubuntu
+          group: ubuntu
+          mode: "0755"
+
+      - name: Ensure Topologies directory exists
+        ansible.builtin.file:
+          path: "{{ topologies_dir }}"
+          state: directory
+          owner: ubuntu
+          group: ubuntu
+          mode: "0755"
+
+      - name: copy iosxrd image
+        ansible.builtin.copy:
+          src: "{{ archive_source }}"
+          dest: "{{ archive_dest }}"
+          owner: ubuntu
+          group: ubuntu
+          mode: '0644'
+
+      - name: Unpack gzip archive
+        ansible.builtin.command:
+          cmd: gzip -d -f "{{ archive_dest }}"
+        args:
+          creates: "{{ tar_file }}"
+
+      - name: Extract IOS-XRd tar archive
+        ansible.builtin.unarchive:
+          src: "{{ tar_file }}"
+          dest: "{{ images_dir }}"
+          remote_src: true
+          owner: ubuntu
+          group: ubuntu
+        args:
+          creates: "{{ docker_image_tar }}"
+
+      - name: Load Docker image
+        community.docker.docker_image_load:
+          path: "{{ docker_image_tar }}"
+        register: docker_load_result
+
+      - name: Set fs.inotify.max_user_instances
+        ansible.posix.sysctl:
+          name: fs.inotify.max_user_instances
+          value: "64000"
+          state: present
+          sysctl_set: true
+          reload: true
+
+      - name: Set fs.inotify.max_user_watches
+        ansible.posix.sysctl:
+          name: fs.inotify.max_user_watches
+          value: "64000"
+          state: present
+          sysctl_set: true
+          reload: true              

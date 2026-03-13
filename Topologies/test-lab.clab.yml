@@ -1,0 +1,24 @@
+name: xrd-lab
+
+topology:
+  kinds:
+    cisco_xrd:
+      image: ios-xr/xrd-control-plane:25.4.1
+      env:
+        CLAB_MGMT_VRF: Mgmt-intf
+
+  nodes:
+    r1:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.11
+      ports:
+        - "2201:22"
+
+    r2:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.12
+      ports:
+        - "2202:22"
+
+  links:
+    - endpoints: ["r1:Gi0-0-0-0", "r2:Gi0-0-0-0"]

@@ -1,0 +1,62 @@
+---
+- hosts: SB-ContainerLab
+  become: yes
+  tasks:
+    - name: Install required system packages for docker
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - apt-transport-https
+          - gpg
+          - make
+          - golang
+          - git
+        state: latest
+        update_cache: true
+    
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    
+    - name: Update apt and install docker
+      apt:
+        pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+        state: latest
+        update_cache: true
+    
+    - name: adding ubuntu user to 'docker' group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+    
+    - name: Enable docker.service
+      ansible.builtin.systemd_service:
+        name: docker.service
+        enabled: true
+    
+    - name: Enable containerd.service
+      ansible.builtin.systemd_service:
+        name: containerd.service
+        enabled: true
+
+    - name: Allow user 'ubuntu' to run docker without sudo
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: 'ubuntu ALL=(ALL) NOPASSWD: /usr/bin/docker'
+        state: present
+
+
+  
