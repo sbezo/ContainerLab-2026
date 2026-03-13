@@ -45,4 +45,6 @@ password: clab@123
 ssh clab@<Linux_host_IP> -p 2201
 
 
+# Result
+
 <img width="792" height="297" alt="image" src="https://github.com/user-attachments/assets/c98163e1-bd0b-43b4-bea6-0a3ab6dd07e4" />
