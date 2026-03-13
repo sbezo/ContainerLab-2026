@@ -1,7 +1,7 @@
 # About
 This repo provides end-to-end procedure for building Containerlab topology with ios-xrd docker image.
 Lab is deployed on remote Linux server on ESXi hypervisor in my case.
-Everything what make sense is deployed remotly (Terraform/Ansible)
+Everything what makes sense is deployed remotly (Terraform/Ansible)
 
 # Deployment notes:
 ios-xrd image is too big for github, so download your own
@@ -19,7 +19,7 @@ Follow makefile to:
 
 # Operating containerlab on remote Linux host
 
-## run lan
+## run lab
 containerlab deploy -t Topologies/test-lab.clab.yml
 
 ## lab containers should run now:
