@@ -19,13 +19,13 @@ Follow makefile to:
 
 # Operating containerlab on remote Linux host
 
-# run lan
+## run lan
 containerlab deploy -t Topologies/test-lab.clab.yml
 
-# lab containers should run now:
+## lab containers should run now:
 docker ps
 
-# in case of topology change:
+## in case of topology change:
 containerlab deploy -t Topologies/test-lab.clab.yml --reconfigure
 
 ## from local host (with repository)
@@ -34,14 +34,14 @@ make copy-labs
 ## on remote Linux host:
 containerlab deploy -t Topologies/test-lab.clab.yml --reconfigure
 
-# destroy lab
+## destroy lab
 containerlab destroy -t test-lab.clab.yml
 
-# connect to router directly from Linux host:
+## connect to router directly from Linux host:
 ssh clab@clab-xrd-lab-r1
 password: clab@123
 
-# or remote to ports 2201 and 2202 (as defined in lab yml)
+## or remote to ports 2201 and 2202 (as defined in lab yml)
 ssh clab@<Linux_host_IP> -p 2201
 
 
