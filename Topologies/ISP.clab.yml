@@ -1,5 +1,6 @@
 name: xrd-lab
 
+# Lab No3
 topology:
   kinds:
     cisco_xrd:
@@ -10,23 +11,17 @@ topology:
   nodes:
     r1:
       kind: cisco_xrd
-      mgmt-ipv4: 172.20.20.11
+      mgmt-ipv4: 172.20.20.31
       ports:
-        - "2101:22"
+        - "2311:22"
+        
 
     r2:
       kind: cisco_xrd
-      mgmt-ipv4: 172.20.20.12
+      mgmt-ipv4: 172.20.20.32
       ports:
-        - "2112:22"
-
-    r3:
-      kind: cisco_xrd
-      mgmt-ipv4: 172.20.20.13
-      ports:
-        - "2123:22"
+        - "2321:22"
 
   links:
     - endpoints: ["r1:Gi0-0-0-0", "r2:Gi0-0-0-0"]
-    - endpoints: ["r2:Gi0-0-0-1", "r3:Gi0-0-0-1"]
 

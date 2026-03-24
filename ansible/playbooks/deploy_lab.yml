@@ -1,0 +1,5 @@
+---
+- hosts: SB-ContainerLab
+  tasks:
+    - name: deploy lab
+      shell: containerlab deploy -t Topologies/{{ topo }} --reconfigure

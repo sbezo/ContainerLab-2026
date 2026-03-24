@@ -17,7 +17,28 @@ Follow makefile to:
 - Ansible Copy dir with lab topologies
 
 
+#############################################
+# Operating containerlab from local host
+#############################################
+
+## copy lab folder from local host
+make copy-labs
+
+## deploy lab from local host
+make deploy-lab TOPO=test-lab.clab.yml
+
+## open terminals from local host
+make connect TOPO=test-lab.clab.yml
+
+
+
+
+#############################################
 # Operating containerlab on remote Linux host
+#############################################
+
+## destroy all labs and clean up
+containerlab destroy -a -c
 
 ## run lab
 containerlab deploy -t Topologies/test-lab.clab.yml
@@ -28,8 +49,6 @@ docker ps
 ## in case of topology change:
 containerlab deploy -t Topologies/test-lab.clab.yml --reconfigure
 
-## from local host (with repository)
-make copy-labs
 
 ## on remote Linux host:
 containerlab deploy -t Topologies/test-lab.clab.yml --reconfigure
@@ -43,6 +62,7 @@ password: clab@123
 
 ## or remote to ports 2201 and 2202 (as defined in lab yml)
 ssh clab@<Linux_host_IP> -p 2201
+
 
 
 # Result

@@ -38,6 +38,16 @@ copy-labs:
 	cd ansible &&  \
 	ansible-playbook -i inventories/hosts.yml --vault-password-file .ansible_vault playbooks/copy_labs.yml
 
+connect:
+	source .venv/bin/activate && \
+	python3 ./scripts/open_terminals.py $(TOPO)
+
+deploy-lab:
+	source .venv/bin/activate && \
+	cd ansible &&  \
+	ansible-playbook -i inventories/hosts.yml --vault-password-file .ansible_vault -e "topo=$(TOPO)" playbooks/deploy_lab.yml
+
+
 
 
 
