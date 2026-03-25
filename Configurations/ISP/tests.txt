@@ -1,0 +1,19 @@
+!--- PE1
+
+! OSPF
+sh ip ospf nei 
+show route ospf
+ping 10.0.0.2
+show ospf interface brief
+
+! MPLS
+show mpls ldp neighbor
+show mpls ldp bindings
+show mpls forwarding
+show mpls forwarding prefix 1.1.1.2/32
+
+! iBGP
+sh ip bgp neighbor brief
+show bgp vpnv4 unicast summary
+
+! VPNv4

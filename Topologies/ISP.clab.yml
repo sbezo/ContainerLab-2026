@@ -9,19 +9,48 @@ topology:
         CLAB_MGMT_VRF: Mgmt-intf
 
   nodes:
-    r1:
+    P0:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.30
+      ports:
+        - "2310:22"
+
+    PE1:
       kind: cisco_xrd
       mgmt-ipv4: 172.20.20.31
       ports:
         - "2311:22"
-        
 
-    r2:
+    PE2:
       kind: cisco_xrd
       mgmt-ipv4: 172.20.20.32
       ports:
-        - "2321:22"
+        - "2312:22"
+
+    CE1:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.33
+      ports:
+        - "2313:22"
+
+    CE2:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.34
+      ports:
+        - "2314:22"
+
+    RR:
+      kind: cisco_xrd
+      mgmt-ipv4: 172.20.20.35
+      ports:
+        - "2315:22"
+        
+
 
   links:
-    - endpoints: ["r1:Gi0-0-0-0", "r2:Gi0-0-0-0"]
+    - endpoints: ["CE1:Gi0-0-0-0", "PE1:Gi0-0-0-1"]
+    - endpoints: ["PE1:Gi0-0-0-0", "P0:Gi0-0-0-0"]
+    - endpoints: ["P0:Gi0-0-0-1", "PE2:Gi0-0-0-0"]
+    - endpoints: ["PE2:Gi0-0-0-1", "CE2:Gi0-0-0-0"]
+    - endpoints: ["P0:Gi0-0-0-2", "RR:Gi0-0-0-0"]
 
