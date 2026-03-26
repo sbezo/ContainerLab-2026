@@ -1,15 +1,40 @@
 from pathlib import Path
 from netmiko import ConnectHandler
-from getpass import getpass
-import os
 
-HOST = "10.208.116.71"
-USERNAME = "clab"
-PASSWORD = "clab@123"
-
-workdir = os.getcwd()
-CFG_DIR = f'{workdir}/Configurations/ISP'
+ROOT_DIR = Path(__file__).resolve().parent.parent
+CONFIG_PATH = ROOT_DIR / "config.txt"
+CFG_DIR = ROOT_DIR / "Configurations" / "ISP"
 print(CFG_DIR)
+
+
+def read_config(config_path: Path) -> dict[str, str]:
+    config = {}
+
+    with open(config_path, "r") as config_file:
+        for line in config_file:
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+
+            key, separator, value = stripped.partition("=")
+            if separator:
+                config[key.strip()] = value.strip()
+
+    required_keys = ("SERVER_IP", "USERNAME", "PASSWORD")
+    missing_keys = [
+        key for key in required_keys
+        if not config.get(key) or config[key] == "CHANGE_ME"
+    ]
+    if missing_keys:
+        missing = ", ".join(missing_keys)
+        raise ValueError(f"Missing valid {missing} in {config_path}")
+
+    return config
+
+config = read_config(CONFIG_PATH)
+HOST = config["SERVER_IP"]
+USERNAME = config["USERNAME"]
+PASSWORD = config["PASSWORD"]
 
 # map file/router name -> ssh port on the remote host
 ROUTERS = {
@@ -32,7 +57,7 @@ def read_cfg_lines(cfg_file: Path):
 
 
 for router, port in ROUTERS.items():
-    cfg_file = f"{CFG_DIR}/{router}.cfg"
+    cfg_file = CFG_DIR / f"{router}.cfg"
 
     device = {
         "device_type": "cisco_xr",

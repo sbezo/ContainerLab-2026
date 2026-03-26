@@ -1,0 +1,5 @@
+# Root-level project settings for local helper scripts.
+# Replace the values below with your Containerlab server details.
+SERVER_IP=10.208.116.71
+USERNAME=clab
+PASSWORD=clab@123
