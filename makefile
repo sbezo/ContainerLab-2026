@@ -42,6 +42,10 @@ connect:
 	source .venv/bin/activate && \
 	python3 ./scripts/open_terminals.py $(TOPO)
 
+configure-ISP:
+	source .venv/bin/activate && \
+	python3 ./scripts/push_ISP_configs.py
+
 deploy-lab:
 	source .venv/bin/activate && \
 	cd ansible &&  \

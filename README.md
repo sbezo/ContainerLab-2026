@@ -30,6 +30,9 @@ make deploy-lab TOPO=test-lab.clab.yml
 ## open terminals from local host
 make connect TOPO=test-lab.clab.yml
 
+## push configs with netmico script
+make configure-ISP
+
 
 
 

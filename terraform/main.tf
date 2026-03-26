@@ -43,7 +43,7 @@ resource "vsphere_virtual_machine" "SB-ContainerLab" {
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore.id
   num_cpus = 8
-  memory   = 16384
+  memory   = 24576
   guest_id = data.vsphere_virtual_machine.SB-Ubuntu-Template.guest_id
   folder = "USER_VMs/SB"
   wait_for_guest_net_timeout = 0  

@@ -17,3 +17,32 @@ sh ip bgp neighbor brief
 show bgp vpnv4 unicast summary
 
 ! VPNv4
+show bgp vpnv4 unicast
+show bgp vpnv4 unicast rd 65000:1 172.16.0.2/32
+
+! VPWS
+show l2vpn xconnect
+
+! Bridge domain
+show l2vpn bridge-domain
+show l2vpn mac-learning mac all first 10 location 0/RP0/CPU0
+show l2vpn bridge-domain bd-name BD300 det
+
+
+
+!--- CE1
+! VPNv4
+ping 172.16.0.2 source 172.16.0.1
+
+! VPWS
+ping 192.168.200.2
+show arp
+
+! Bridge domain
+ping 192.168.230.2  !--- this doesn't work because of XRd Control Plane plattform
+ping 192.168.230.3
+
+
+
+
+
