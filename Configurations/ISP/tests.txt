@@ -23,6 +23,9 @@ show bgp vpnv4 unicast rd 65000:1 172.16.0.2/32
 ! VPWS
 show l2vpn xconnect
 
+! Multicast over xconnect VLAN200
+show l2vpn xconnect
+
 ! Bridge domain
 show l2vpn bridge-domain
 show l2vpn mac-learning mac all first 10 location 0/RP0/CPU0
@@ -38,11 +41,34 @@ ping 172.16.0.2 source 172.16.0.1
 ping 192.168.200.2
 show arp
 
+! Multicast source over xconnect VLAN200
+! Note: timeout output is expected here; use this only to generate multicast traffic
+ping 239.20.0.1 source 192.168.200.1 repeat 20
+
 ! Bridge domain
 ping 192.168.230.2  !--- this doesn't work because of XRd Control Plane plattform
 ping 192.168.230.3
 
 
 
+!--- CE2
+! Multicast receiver over xconnect VLAN200
+show igmp groups
+show igmp interface GigabitEthernet0/0/0/1.200
+show interfaces GigabitEthernet0/0/0/1.200 | i packets
+
+
+
+! Suggested multicast test flow over xconnect
+! 1. Push the updated ISP configs.
+! 2. On PE1 and PE2, verify the VPWS is up:
+!    show l2vpn xconnect
+! 3. On CE2, confirm the receiver joined 239.20.0.1 from source 192.168.200.1:
+!    show igmp groups
+! 4. On CE2, note interface counters on Gi0/0/0/1.200.
+! 5. On CE1, generate multicast traffic:
+!    ping 239.20.0.1 source 192.168.200.1 repeat 20
+!    Do not expect ping replies; this command only injects multicast ICMP packets into VLAN200.
+! 6. On CE2, check Gi0/0/0/1.200 counters again and verify they increased.
 
 
